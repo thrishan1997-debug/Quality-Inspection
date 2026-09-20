@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Supplier Quality Inspection</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 16px;
+  background: #f4f6f8;
+  color: #222;
+}
+h2 { margin-top: 5px; }
+.card {
+  background: white;
+  padding: 15px;
+  margin-bottom: 12px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px #ccc;
+}
+input, textarea, select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 11px;
+  margin: 6px 0 10px;
+  border: 1px solid #bbb;
+  border-radius: 7px;
+}
+button {
+  padding: 11px 15px;
+  margin: 4px;
+  border: 0;
+  border-radius: 7px;
+  background: #1976d2;
+  color: white;
+  font-weight: bold;
+}
+.photo {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  margin: 4px;
+  border-radius: 6px;
+}
+.test {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 8px;
+}
+.pass { background: #2e7d32; }
+.fail { background: #c62828; }
+</style>
+</head>
+
+<body>
+
+<h2>Supplier Quality Inspection</h2>
+
+<div class="card">
+  <label>Product Name</label>
+  <input id="product" placeholder="Enter product">
+
+  <label>Supplier</label>
+  <input id="supplier" placeholder="Supplier name">
+
+  <label>EAN / Barcode</label>
+  <input id="ean" placeholder="Scan or enter EAN">
+
+  <button onclick="scanCode()">📷 Scan EAN / QR / Barcode</button>
+</div>
+
+<div class="card">
+  <h3>Test Master</h3>
+
+  <input id="testName" placeholder="Test name">
+  <input id="requirement" placeholder="Requirement">
+  <input id="tolerance" placeholder="Tolerance / Limit">
+
+  <button onclick="addTest()">＋ Add Test</button>
+</div>
+
+<div id="tests"></div>
+
+<div class="card">
+  <h3>Photos</h3>
+
+  <button onclick="takePhoto()">📷 Camera</button>
+  <button onclick="gallery()">🖼️ Gallery</button>
+
+  <div id="photos"></div>
+</div>
+
+<div class="card">
+  <button onclick="saveInspection()">💾 Save Inspection</button>
+  <button onclick="clearInspection()">Clear</button>
+</div>
+
+<script>
+
+let tests = [];
+let photos = [];
+
+function addTest() {
+  const name = document.getElementById("testName").value;
+  const req = document.getElementById("requirement").value;
+  const tol = document.getElementById("tolerance").value;
+
+  if (!name) {
+    alert("Enter test name");
+    return;
+  }
+
+  tests.push({
+    name: name,
+    requirement: req,
+    tolerance: tol,
+    result: ""
+  });
+
+  document.getElementById("testName").value = "";
+  document.getElementById("requirement").value = "";
+  document.getElementById("tolerance").value = "";
+
+  displayTests();
+}
+
+function displayTests() {
+  const box = document.getElementById("tests");
+  box.innerHTML = "";
+
+  tests.forEach((t, i) => {
+    box.innerHTML += `
+      <div class="card test">
+        <b>${i + 1}. ${t.name}</b>
+        <p>Requirement: ${t.requirement}</p>
+        <p>Tolerance: ${t.tolerance}</p>
+
+        <button class="pass" onclick="setResult(${i},'PASS')">
+          PASS
+        </button>
+
+        <button class="fail" onclick="setResult(${i},'FAIL')">
+          FAIL
+        </button>
+
+        <p>Result: <b>${t.result}</b></p>
+      </div>
+    `;
+  });
+}
+
+function setResult(i, result) {
+  tests[i].result = result;
+  displayTests();
+}
+
+function scanCode() {
+  if (window.Android && Android.scanBarcode) {
+    Android.scanBarcode();
+  } else {
+    alert("Barcode scanner will be available in the Android app.");
+  }
+}
+
+function takePhoto() {
+  if (window.Android && Android.takePhoto) {
+    Android.takePhoto();
+  } else {
+    alert("Camera will be available in the Android app.");
+  }
+}
+
+function gallery() {
+  if (window.Android && Android.openGallery) {
+    Android.openGallery();
+  } else {
+    alert("Gallery will be available in the Android app.");
+  }
+}
+
+function addPhoto(uri) {
+  photos.push(uri);
+
+  document.getElementById("photos").innerHTML +=
+    `<img class="photo" src="${uri}">`;
+}
+
+function setBarcode(value) {
+  document.getElementById("ean").value = value;
+}
+
+function saveInspection() {
+  const data = {
+    product: document.getElementById("product").value,
+    supplier: document.getElementById("supplier").value,
+    ean: document.getElementById("ean").value,
+    tests: tests,
+    photos: photos
+  };
+
+  localStorage.setItem(
+    "inspection",
+    JSON.stringify(data)
+  );
+
+  alert("Inspection saved successfully");
+}
+
+function clearInspection() {
+  if (confirm("Clear this inspection?")) {
+    localStorage.removeItem("inspection");
+    location.reload();
+  }
+}
+
+</script>
+
+</body>
+</html>
