@@ -14,383 +14,63 @@ body {
     margin: 0;
     font-family: Arial, sans-serif;
     background: #f4f6f8;
-    color: #222;
+    color: #1f2937;
 }
 
 header {
-    background: #172033;
+    background: #1565c0;
     color: white;
     padding: 18px;
     text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 10;
 }
 
 header h1 {
     margin: 0;
-    font-size: 24px;
+    font-size: 22px;
 }
 
 .container {
-    max-width: 900px;
+    max-width: 1100px;
     margin: auto;
-    padding: 20px;
+    padding: 15px;
+}
+
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 15px;
 }
 
 .card {
     background: white;
-    padding: 20px;
-    margin-bottom: 18px;
+    padding: 15px;
     border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    box-shadow: 0 2px 8px #00000012;
+    text-align: center;
 }
 
-h2 {
-    margin-top: 0;
-    color: #172033;
-}
-
-label {
+.card strong {
     display: block;
-    margin-top: 12px;
-    font-weight: bold;
-}
-
-input, select, textarea {
-    width: 100%;
-    padding: 12px;
-    margin-top: 6px;
-    border: 1px solid #ccc;
-    border-radius: 7px;
-    font-size: 15px;
-}
-
-textarea {
-    min-height: 80px;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 15px;
-}
-
-th, td {
-    border: 1px solid #ddd;
-    padding: 10px;
-    text-align: left;
-}
-
-th {
-    background: #172033;
-    color: white;
+    font-size: 25px;
+    margin-top: 5px;
 }
 
 button {
     border: none;
-    padding: 12px 18px;
-    border-radius: 7px;
+    border-radius: 8px;
+    padding: 11px 15px;
     cursor: pointer;
-    font-size: 15px;
-    margin: 5px;
-}
-
-.pass {
-    background: #198754;
-    color: white;
-}
-
-.fail {
-    background: #dc3545;
-    color: white;
+    font-size: 14px;
 }
 
 .primary {
-    background: #0d6efd;
+    background: #1565c0;
     color: white;
 }
 
-.reset {
-    background: #6c757d;
-    color: white;
-}
-
-.status {
-    font-weight: bold;
-}
-
-.summary {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-
-.summary div {
-    flex: 1;
-    min-width: 120px;
-    padding: 15px;
-    text-align: center;
-    border-radius: 8px;
-    background: #eef1f5;
-}
-
-@media(max-width:600px) {
-    .container {
-        padding: 10px;
-    }
-
-    table {
-        font-size: 13px;
-    }
-
-    th, td {
-        padding: 7px;
-    }
-}
-</style>
-</head>
-
-<body>
-
-<header>
-    <h1>Quality Inspection</h1>
-    <p>Supplier Quality Inspection System</p>
-</header>
-
-<div class="container">
-
-<div class="card">
-<h2>Inspection Details</h2>
-
-<label>Supplier Name</label>
-<input id="supplier" placeholder="Enter supplier name">
-
-<label>Product Name</label>
-<input id="product" placeholder="Enter product name">
-
-<label>Model / Part No.</label>
-<input id="model" placeholder="Enter model or part number">
-
-<label>Inspection Date</label>
-<input type="date" id="date">
-
-<label>Inspector</label>
-<input id="inspector" placeholder="Inspector name">
-</div>
-
-
-<div class="card">
-<h2>Inspection Checklist</h2>
-
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Requirement</th>
-<th>Status</th>
-</tr>
-</thead>
-
-<tbody>
-
-<tr>
-<td>Visual Inspection</td>
-<td>No visible defects</td>
-<td>
-<select class="result">
-<option value="">Select</option>
-<option value="PASS">PASS</option>
-<option value="FAIL">FAIL</option>
-</select>
-</td>
-</tr>
-
-<tr>
-<td>Dimension</td>
-<td>As per approved drawing</td>
-<td>
-<select class="result">
-<option value="">Select</option>
-<option value="PASS">PASS</option>
-<option value="FAIL">FAIL</option>
-</select>
-</td>
-</tr>
-
-<tr>
-<td>Material</td>
-<td>As per specification</td>
-<td>
-<select class="result">
-<option value="">Select</option>
-<option value="PASS">PASS</option>
-<option value="FAIL">FAIL</option>
-</select>
-</td>
-</tr>
-
-<tr>
-<td>Function Test</td>
-<td>Product shall function correctly</td>
-<td>
-<select class="result">
-<option value="">Select</option>
-<option value="PASS">PASS</option>
-<option value="FAIL">FAIL</option>
-</select>
-</td>
-</tr>
-
-<tr>
-<td>Electrical Safety</td>
-<td>As per applicable standard</td>
-<td>
-<select class="result">
-<option value="">Select</option>
-<option value="PASS">PASS</option>
-<option value="FAIL">FAIL</option>
-</select>
-</td>
-</tr>
-
-</tbody>
-</table>
-</div>
-
-
-<div class="card">
-<h2>Inspection Summary</h2>
-
-<div class="summary">
-<div>
-<strong id="passCount">0</strong>
-<br>PASS
-</div>
-
-<div>
-<strong id="failCount">0</strong>
-<br>FAIL
-</div>
-
-<div>
-<strong id="pendingCount">5</strong>
-<br>PENDING
-</div>
-</div>
-
-<br>
-
-<label>Remarks</label>
-<textarea id="remarks" placeholder="Enter inspection remarks"></textarea>
-
-<br>
-
-<button class="primary" onclick="generateReport()">
-Generate Report
-</button>
-
-<button class="reset" onclick="resetForm()">
-Reset
-</button>
-
-</div>
-
-<div class="card" id="report" style="display:none;">
-<h2>Inspection Report</h2>
-<div id="reportContent"></div>
-</div>
-
-</div>
-
-<script>
-
-const results = document.querySelectorAll(".result");
-
-results.forEach(result => {
-    result.addEventListener("change", updateSummary);
-});
-
-function updateSummary() {
-
-    let pass = 0;
-    let fail = 0;
-    let pending = 0;
-
-    results.forEach(r => {
-
-        if (r.value === "PASS") {
-            pass++;
-        } else if (r.value === "FAIL") {
-            fail++;
-        } else {
-            pending++;
-        }
-
-    });
-
-    document.getElementById("passCount").textContent = pass;
-    document.getElementById("failCount").textContent = fail;
-    document.getElementById("pendingCount").textContent = pending;
-}
-
-function generateReport() {
-
-    const supplier =
-        document.getElementById("supplier").value || "-";
-
-    const product =
-        document.getElementById("product").value || "-";
-
-    const model =
-        document.getElementById("model").value || "-";
-
-    const date =
-        document.getElementById("date").value || "-";
-
-    const inspector =
-        document.getElementById("inspector").value || "-";
-
-    const remarks =
-        document.getElementById("remarks").value || "-";
-
-    let html = `
-        <p><strong>Supplier:</strong> ${supplier}</p>
-        <p><strong>Product:</strong> ${product}</p>
-        <p><strong>Model:</strong> ${model}</p>
-        <p><strong>Date:</strong> ${date}</p>
-        <p><strong>Inspector:</strong> ${inspector}</p>
-
-        <h3>Result</h3>
-
-        <p>
-        PASS: ${document.getElementById("passCount").textContent}
-        &nbsp;&nbsp;
-        FAIL: ${document.getElementById("failCount").textContent}
-        &nbsp;&nbsp;
-        PENDING: ${document.getElementById("pendingCount").textContent}
-        </p>
-
-        <p><strong>Remarks:</strong> ${remarks}</p>
-    `;
-
-    document.getElementById("reportContent").innerHTML = html;
-    document.getElementById("report").style.display = "block";
-}
-
-function resetForm() {
-
-    document.querySelectorAll("input, textarea").forEach(e => {
-        e.value = "";
-    });
-
-    results.forEach(r => {
-        r.value = "";
-    });
-
-    updateSummary();
-
-    document.getElementById("report").style.display = "none";
-}
-
-</script>
-
-</body>
-</html>
+.success {
+    background: #2e7
