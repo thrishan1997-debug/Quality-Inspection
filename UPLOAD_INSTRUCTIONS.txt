@@ -1,0 +1,4 @@
+Complete standard Android project.
+Upload the contents while preserving folders.
+Root must contain .github, app, build.gradle.kts, gradle.properties, settings.gradle.kts.
+Then Actions -> Build Android APK -> Run workflow.
